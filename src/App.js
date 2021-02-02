@@ -6,7 +6,7 @@ import React, { Component } from 'react';
 import { db } from "./firebase_config";
 import firebase from "firebase";
 // import FrutaListItem from './app/Frutas';
-import fotoAnime from "./images/taiga.png";
+
 
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
       if (frutas.length && poderes.length) {
         getHeroi();
       } 
-    }, [frutas, poderes]);
+    }, [frutas, poderes, cores, regioes]);
 
     async function getPoderes() {
       const resultados = await db.collection("poderes").get();
@@ -102,8 +102,13 @@ function App() {
       const corRandom = cores[randomInteger(1, cores.length - 1)];
       const poderRandom = poderes[randomInteger(1, poderes.length -1)];
       const regiaoRandom = regioes[randomInteger(1, regioes.length -1)];
-
-      setHeroi(`Sou o super herói ${frutaRandom.fruta} da cor ${corRandom.cor} o meu poder é ${poderRandom.poder} e moro na região do(a) ${regiaoRandom.regiao}`);
+      
+      
+      if (regiaoRandom.regiao.charAt(regiaoRandom.regiao.length - 1) == 'a'){
+        setHeroi(`Você é o super herói ${frutaRandom.fruta} da cor ${corRandom.cor}, o seu poder é ${poderRandom.poder} e você mora na região da ${regiaoRandom.regiao}!`);
+      } else {
+        setHeroi(`Você é o super herói ${frutaRandom.fruta} da cor ${corRandom.cor}, o seu poder é ${poderRandom.poder} e você mora na região do ${regiaoRandom.regiao}!`);
+      }      
     }
     
     // console.log(`A fruta aleatória é ${frutaRandom.fruta}`);
@@ -115,19 +120,23 @@ function App() {
     
     return (
       <div className="App" style={{ display: "flex", justifyContent: "center", }}>
+        <div className="navbar">
+          <img src="./images/superhero.svg" alt="Logo superhero" className="navbar-logo" />
+          <h1 className="navbar-title">Gerador de Heróis</h1>
+        </div>
         <div className="container">
           <div className="content">
             <h1 className="title">Teste do Herói</h1>
             {/* Verificar se está carregando */}
             {
-              loading ? 
-              <h2 class="titleHero">Buscando o seu herói...</h2> : 
+              loading ?  <h2 class="titleHero">Buscando o seu herói...</h2> : 
               (heroi ? (<div class="containerHero"><h2 className="titleHero">O seu herói foi gerado: <br /><span class="contentHero">{heroi}</span></h2></div>) : (<h2>Não foi possível gerar um herói, necessário verificar os dados</h2>))   
             }
-            
+            {/* <img src="./images/superhero.svg" alt="Herói" className="imagem-frase" /> */}
             <div className="foto-anime">
-              <img src="./images/taiga.png" />
+              <img src="./images/neferupitou.gif" />
             </div>
+
                        
             {/* <form>
               <TextField 
